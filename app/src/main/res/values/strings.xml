@@ -3,4 +3,6 @@
     <string name="start_playing">Start playing!</string>
     <string name="welcome_to_connect3">Welcome to Connect3!</string>
     <string name="enter_your_name">Enter your name</string>
+    <string name="reset_game">Reset Game</string>
+    <string name="player_s_turn">Player\'s Turn</string>
 </resources>
