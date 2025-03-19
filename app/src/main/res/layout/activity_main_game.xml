@@ -13,5 +13,8 @@
         android:layout_height="wrap_content"
         android:text="@string/headerMainGame"
         tools:layout_editor_absoluteX="-1dp"
-        tools:layout_editor_absoluteY="2dp" />
+        tools:layout_editor_absoluteY="2dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
