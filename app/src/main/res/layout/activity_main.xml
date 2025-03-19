@@ -7,13 +7,23 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <EditText
+        android:id="@+id/et_InputName"
+        android:layout_width="258dp"
+        android:layout_height="54dp"
+        android:ems="10"
+        android:inputType="text"
+        android:text="Enter your name"
+        tools:layout_editor_absoluteX="95dp"
+        tools:layout_editor_absoluteY="310dp" />
+
+    <Button
+        android:id="@+id/btn_StartGame"
+        android:layout_width="187dp"
+        android:layout_height="57dp"
+        android:onClick="openMainGameActivity"
+        android:text="@string/str_btnStart"
+        tools:layout_editor_absoluteX="131dp"
+        tools:layout_editor_absoluteY="413dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
