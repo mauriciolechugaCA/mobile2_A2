@@ -57,9 +57,12 @@ public class MainGameActivity extends AppCompatActivity {
         }
 
 
-        if (playerXTurn) {
+        if (playerXTurn)
+        {
             button.setText("X");
-        } else {
+        }
+        else
+        {
             button.setText("O");
         }
 
