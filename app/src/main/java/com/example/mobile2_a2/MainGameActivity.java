@@ -10,6 +10,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class MainGameActivity extends AppCompatActivity {
@@ -17,12 +18,17 @@ public class MainGameActivity extends AppCompatActivity {
     TextView tvResult;
     String playerNameX;
     String playerNameO;
+    Button btnPlayAgain;
+    Button btnBack;
 
     //Array to store the game board
-    Button[] arrButtons = new Button[9];
+    ImageView[] arrImgViews = new ImageView[9];
 
     //Boolean to check if it is player X turn
     boolean playerXTurn = true;
+
+    //Blocking the board after the end game
+    boolean isGameEnded = false;
 
     //Moves counter
     int movesCounter = 0;
@@ -42,46 +48,86 @@ public class MainGameActivity extends AppCompatActivity {
         playerNameX = getIntent().getStringExtra("playerNameX");
         playerNameO = getIntent().getStringExtra("playerNameO");
 
+        if (playerNameX.isEmpty())
+        {
+            playerNameX = "Player X";
+        }
+        if (playerNameO.isEmpty())
+        {
+            playerNameO = "Player O";
+        }
+
         tvResult = findViewById(R.id.tvResult);
 
         //Fill the array with the buttons
         for (int i = 0; i < 9; i++)
         {
-            String buttonID = "btn" + i;
+            String imageViewID = "iv" + i;
 
             //Getting the real ID
-            int realID = getResources().getIdentifier(buttonID, "id", getPackageName());
+            int realID = getResources().getIdentifier(imageViewID, "id", getPackageName());
 
             //print the real ID
             System.out.println("RealID: " + realID);
 
-            arrButtons[i] = findViewById(realID);
+            arrImgViews[i] = findViewById(realID);
 
-            arrButtons[i].setOnClickListener(this::onButtonPressed);
+            arrImgViews[i].setOnClickListener(this::onButtonPressed);
 
         }
+
+        btnPlayAgain = findViewById(R.id.btnPlayAgain);
+        btnPlayAgain.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                NewGame();
+            }
+        });
+
+        btnBack = findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+//                onBackPressed();
+                getOnBackPressedDispatcher().onBackPressed();
+            }
+        });
     }
 
 
     public void onButtonPressed(View v)
     {
-        Button button = (Button) v;
+        System.out.println("Button pressed");
+        ImageView imageView = (ImageView) v;
 
-        //Button already has a value
-        if (!button.getText().toString().equals(""))
+        //Check if the imageview has an image and if the game ended
+        if (imageView.getDrawable() != null || isGameEnded)
         {
             return;
         }
 
-
         if (playerXTurn)
         {
-            button.setText("X");
+            imageView.setImageResource(R.drawable.image_x);
+            imageView.setScaleX(0f);
+            imageView.setScaleY(0f);
+            imageView.animate().scaleX(1f).scaleY(1f).setDuration(500).start();
+            //Adding the tag to compare later
+            imageView.setTag("X");
         }
         else
         {
-            button.setText("O");
+            imageView.setImageResource(R.drawable.image_o);
+            imageView.setScaleX(0f);
+            imageView.setScaleY(0f);
+            imageView.animate().scaleX(1f).scaleY(1f).setDuration(500).start();
+            imageView.setTag("O");
         }
+
 
         movesCounter++;
 
@@ -103,16 +149,21 @@ public class MainGameActivity extends AppCompatActivity {
             if (playerXTurn)
             {
                 tvResult.setText("Congrats " + playerNameX + "! You won!");
-
+                isGameEnded = true;
+                btnPlayAgain.setVisibility(View.VISIBLE);
             }
             else
             {
                 tvResult.setText("Congrats " + playerNameO + "! You won!");
+                isGameEnded = true;
+                btnPlayAgain.setVisibility(View.VISIBLE);
             }
         }
         else if (IsTie())
         {
             tvResult.setText("It is a Tie!");
+            isGameEnded = true;
+            btnPlayAgain.setVisibility(View.VISIBLE);
         }
     }
 
@@ -121,12 +172,12 @@ public class MainGameActivity extends AppCompatActivity {
         //Rows (0|1|2 - 3|4|5 - 6|7|8)
         for (int row = 0; row < 3; row++)
         {
-            String a = arrButtons[row * 3].getText().toString();
-            String b = arrButtons[row * 3 + 1].getText().toString();
-            String c = arrButtons[row * 3 + 2].getText().toString();
+            String a = (String) arrImgViews[row * 3].getTag();
+            String b = (String) arrImgViews[row * 3 + 1].getTag();
+            String c = (String) arrImgViews[row * 3 + 2].getTag();
 
             //Check if the a is note epmty, then check if a is equal b and b is equal c
-            if (!a.equals("") && a.equals(b) && b.equals(c))
+            if (a != null && b != null && c != null && a.equals(b) && b.equals(c))
             {
                 return true;
             }
@@ -135,28 +186,28 @@ public class MainGameActivity extends AppCompatActivity {
         //Cols (0|3|6 - 1|4|7 - 2|5|8)
         for (int col = 0; col < 3; col++)
         {
-            String a = arrButtons[col].getText().toString();
-            String b = arrButtons[col + 3].getText().toString();
-            String c = arrButtons[col + 6].getText().toString();
-            if (!a.equals("") && a.equals(b) && b.equals(c))
+            String a = (String) arrImgViews[col].getTag();
+            String b = (String) arrImgViews[col + 3].getTag();
+            String c = (String) arrImgViews[col + 6].getTag();
+            if (a != null && b != null && c != null && a.equals(b) && b.equals(c))
             {
                 return true;
             }
         }
 
         //Diagonals
-        String a = arrButtons[0].getText().toString();
-        String b = arrButtons[4].getText().toString();
-        String c = arrButtons[8].getText().toString();
-        if (!a.equals("") && a.equals(b) && b.equals(c))
+        String a = (String) arrImgViews[0].getTag();
+        String b = (String) arrImgViews[4].getTag();
+        String c = (String) arrImgViews[8].getTag();
+        if (a != null && b != null && c != null && a.equals(b) && b.equals(c))
         {
             return true;
         }
 
-        a = arrButtons[2].getText().toString();
-        b = arrButtons[4].getText().toString();
-        c = arrButtons[6].getText().toString();
-        if (!a.equals("") && a.equals(b) && b.equals(c))
+        a = (String) arrImgViews[2].getTag();
+        b = (String) arrImgViews[4].getTag();
+        c = (String) arrImgViews[6].getTag();
+        if (a != null && b != null && c != null && a.equals(b) && b.equals(c))
         {
             return true;
         }
@@ -172,9 +223,20 @@ public class MainGameActivity extends AppCompatActivity {
     public void NewGame()
     {
         //Clean the board
-        for (Button b : arrButtons)
+        for (ImageView iv : arrImgViews)
         {
-            b.setText("");
+            //Remove the image
+            iv.setImageDrawable(null);
+
+            //Remove the tag
+            iv.setTag(null);
+
+            isGameEnded = false;
+
+            btnPlayAgain.setVisibility(View.INVISIBLE);
+
+            tvResult.setText(null);
+
         }
 
         //Reseting the variables
