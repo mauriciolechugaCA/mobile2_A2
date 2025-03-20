@@ -14,8 +14,10 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
 
-    String playerName;
-    EditText etInputName;
+    String playerNameX;
+    String playerNameO;
+    EditText etInputNameX;
+    EditText etInputNameO;
     Button btnStartGame;
 
     @Override
@@ -33,7 +35,8 @@ public class MainActivity extends AppCompatActivity {
         btnStartGame = (Button) findViewById(R.id.btn_StartGame);
 
         //Creating the Edit Text for the Player Name
-        etInputName = (EditText) findViewById(R.id.et_InputName);
+        etInputNameX = (EditText) findViewById(R.id.et_InputNameX);
+        etInputNameO = (EditText) findViewById(R.id.et_InputNameO);
 
 
     }
@@ -43,10 +46,12 @@ public class MainActivity extends AppCompatActivity {
         Intent it_mainGame = new Intent(this, MainGameActivity.class);
 
         //Get the name of the player
-        playerName = etInputName.getText().toString();
+        playerNameX = etInputNameX.getText().toString();
+        playerNameO = etInputNameO.getText().toString();
 
         //Send the name of the player to the main game activity
-        it_mainGame.putExtra("playerName", playerName);
+        it_mainGame.putExtra("playerNameX", playerNameX);
+        it_mainGame.putExtra("playerNameO", playerNameO);
 
         startActivity(it_mainGame);
     }

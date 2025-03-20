@@ -8,18 +8,32 @@
     tools:context=".MainActivity">
 
     <EditText
-        android:id="@+id/et_InputName"
+        android:id="@+id/et_InputNameX"
         android:layout_width="258dp"
         android:layout_height="54dp"
         android:layout_marginStart="95dp"
         android:layout_marginTop="310dp"
         android:layout_marginEnd="95dp"
         android:ems="10"
-        android:hint="Enter you name here"
+        android:hint="Player X Name"
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/et_InputNameO"
+        android:layout_width="258dp"
+        android:layout_height="54dp"
+        android:layout_marginStart="95dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="95dp"
+        android:ems="10"
+        android:hint="Player O Name"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_InputNameX" />
 
     <Button
         android:id="@+id/btn_StartGame"
@@ -33,6 +47,6 @@
         android:text="@string/str_btnStart"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_InputName"  />
+        app:layout_constraintTop_toBottomOf="@+id/et_InputNameO"  />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
